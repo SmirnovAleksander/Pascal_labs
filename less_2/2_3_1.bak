@@ -1,0 +1,17 @@
+PROGRAM Less(INPUT, OUTPUT);
+VAR
+  Ch: CHAR;
+BEGIN
+  WRITELN('Symbols Input: ');
+  READ(Ch);
+  WRITELN('Symbols without spaces befor # : ');
+  WHILE Ch <> '#'
+  DO
+    BEGIN
+      IF Ch <> ' '
+      THEN
+        WRITE(Ch);
+      READ(Ch);
+    END;
+  WRITELN;
+END.

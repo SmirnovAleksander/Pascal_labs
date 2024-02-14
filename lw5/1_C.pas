@@ -1,0 +1,24 @@
+PROGRAM IFSort3(INPUT, OUTPUT);
+{Сортирует 3-строку из INPUT в OUTPUT}
+  VAR
+    Ch1, Ch2, Ch3: CHAR;
+  BEGIN {IFSort3}
+    READ(Ch1, Ch2, Ch3);
+    WRITELN('Входные данные ', Ch1, Ch2, Ch3);
+    WRITE('Cортированные данные');
+    IF Ch1 < Ch2  {сортируем Ch1, Ch2, Ch3 в OUTPUT }
+    THEN
+      IF Ch2 < Ch3
+      THEN {Ch1 < Ch2 < Ch3:сортируем Ch1, Ch2, Ch3 в OUTPUT}
+        WRITELN(Ch1, Ch2, Ch3)
+      ELSE
+        IF Ch1 < Ch3
+        THEN {Ch1 < Ch3 <= Ch2:сортируем Ch1, Ch2, Ch3 в OUTPUT}
+          WRITELN(Ch1, Ch3, Ch2)
+        ELSE {Ch3 <= Ch1 < Ch2:сортируем Ch1, Ch2, Ch3 в OUTPUT}
+          WRITELN(Ch3, Ch1, Ch2)
+    ELSE
+      IF Ch1 < Ch3 {Ch2 <= Ch1:сортируем Ch1, Ch2, Ch3 в OUTPUT}
+      THEN {Ch2 <= Ch1 < Ch3:сортируем Ch1, Ch2, Ch3 в OUTPUT}
+        WRITELN(Ch2, Ch1, Ch3)
+  END. {IFsort3}
