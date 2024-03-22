@@ -1,29 +1,29 @@
-PROGRAM ProgRecursiveSort(INPUT, OUTPUT);
+PROGRAM RunRecursiveSort(INPUT, OUTPUT);
 VAR
-  InputFile: TEXT;
+  FInput: TEXT;
   
-PROCEDURE CopyFile(VAR F1, F2: TEXT);
+PROCEDURE CopyFileLn(VAR FIn, FOut: TEXT);
 VAR
   Ch: CHAR;
 BEGIN {CopyFileLn}
-  WHILE NOT EOLN(F1)
+  WHILE NOT EOLN(FIn)
   DO
     BEGIN
-      READ(F1, Ch);
-      WRITE(F2, Ch)
+      READ(FIn, Ch);
+      WRITE(FOut, Ch)
     END;
-  WRITELN(F2)
+  WRITELN(FOut)
 END; {CopyFileLn}
 
 PROCEDURE Split(VAR F1, F2, F3: TEXT);
-{????????? F1 ?? F2, F3}
+{Разбивает F1 на F2 и F3}
 VAR 
   Ch, Switch: CHAR;
 BEGIN {Split}
   RESET(F1);
   REWRITE(F2);
   REWRITE(F3);
-  BEGIN {?????????? F1 ??????????? ? F2 ? F3}
+  {Копировать F1 попеременно в F2 и F3}
   Switch := '2';
   WHILE NOT (EOLN(F1))
   DO
@@ -46,18 +46,23 @@ BEGIN {Split}
 END; {Split}
 
 PROCEDURE Merge(VAR F1, F2, F3: TEXT);
+{Сливает F2, F3 в F1  в сортированном порядке}
 VAR 
   Ch2, Ch3: CHAR;
 BEGIN {Merge}
   RESET(F2);
   RESET(F3);
   REWRITE(F1);
-  READ(F2, Ch2);
-  READ(F3, Ch3);
-  WHILE (NOT(EOLN(F2))) AND (NOT(EOLN(F3))))
-  DO
+  IF NOT EOLN(F2)
+  THEN
+    READ(F2, Ch2);
+  IF NOT EOLN(F3)
+  THEN
+    READ(F3, Ch3);
+  WHILE (NOT (EOLN(F2))) AND (NOT (EOLN(F3)))
+  DO                                    
     BEGIN
-      IF Ch2 < CH3
+      IF Ch2 < Ch3
       THEN 
         BEGIN
           WRITE(F1, Ch2);
@@ -69,18 +74,24 @@ BEGIN {Merge}
           READ(F3, Ch3);
         END
     END;
-  ////////////  
+  IF Ch2 < Ch3
+  THEN
+    WRITE(F1, Ch2)
+  ELSE
+    WRITE(F1, Ch3);
+  {Копировать остаток F2 в F1}
   WHILE NOT (EOLN(F2))
   DO
     BEGIN
-      WRITE(F1, Ch2);
-      READ(F2, Ch2)
+      READ(F2, Ch2);
+      WRITE(F1, Ch2)
     END;
+  {Копировать остаток F3 в F1}
   WHILE NOT (EOLN(F3))
   DO
     BEGIN
-      WRITE(F1, Ch3);
-      READ(F3, Ch3)
+      READ(F1, Ch2);
+      WRITE(F3, Ch2)
     END;
   WRITELN(F1);
 END; {Merge}
@@ -96,7 +107,7 @@ BEGIN {RecursiveSort}
     BEGIN
       READ(F1, Ch);
       IF NOT (EOLN(F1))
-      THEN {???? ????? ??? ??????? 2 ???????}
+      THEN {Файл имеет как минимум 2 символа}
         BEGIN
           RESET(F1);
           Split(F1, F2, F3);
@@ -106,15 +117,15 @@ BEGIN {RecursiveSort}
           RecursiveSort(F3);
           RESET(F2);
           RESET(F3);
-          Merge(F1, F2, F3);
+          Merge(F1, F2, F3)
         END
     END
-END;
+END; {RecursiveSort}
 
-BEGIN
-  REWRITE(InputFile);
-  CopyFile(INPUT, InputFile);
-  RecursiveSort(InputFile);
-  RESET(InputFile);
-  CopyFile(InputFile, OUTPUT)
-END.
+BEGIN {RunRecursiveSort}
+  REWRITE(FInput);
+  CopyFileLn(INPUT, FInput);
+  RecursiveSort(FInput);
+  RESET(FInput);
+  CopyFileLn(FInput, OUTPUT)
+END. {RunRecursiveSort}

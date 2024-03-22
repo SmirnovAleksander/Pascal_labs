@@ -28,11 +28,11 @@ BEGIN {AverageScore}
       READLN;
       TotalScore := TotalScore * 100;
       Ave := TotalScore DIV NumberOfScores;
-      IF Ave MOD 10 >= 5
+      IF Ave MOD 100 >= 5
       THEN
-        WRITE('Ave: ', Ave DIV 10 + 1)
+        WRITE('Ave: ', Ave DIV 100 + 1)
       ELSE
-        WRITE('Ave: ', Ave DIV 10);
+        WRITE('Ave: ', Ave DIV 100);
       ClassTotal := ClassTotal + TotalScore;
       Student := Student + 1;
       WRITELN
@@ -40,5 +40,5 @@ BEGIN {AverageScore}
   WRITELN;
   WRITELN ('Class average:');
   ClassTotal := ClassTotal DIV (ClassSize * NumberOfScores);
-  WRITELN(ClassTotal DIV 100, '.', ClassTotal MOD 100:2)
+  WRITELN(ClassTotal DIV 100, '.',ClassTotal MOD 10:1, ClassTotal MOD 100:1)
 END.  {AverageScore}

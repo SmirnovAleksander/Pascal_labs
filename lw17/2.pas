@@ -1,6 +1,6 @@
 PROGRAM SumDigit(INPUT, OUTPUT);
 VAR
-  N : INTEGER; 
+  N: INTEGER; 
   
 PROCEDURE ReadDigit(VAR F: TEXT; VAR D: INTEGER);
 VAR
@@ -28,27 +28,26 @@ BEGIN
   Digit := 0;
   WHILE ((NOT EOLN) AND (Digit <> -1)) AND (N <= (MaxINT - Digit) DIV 10) 
   DO
-    BEGIN
+    BEGIN 
       N := N * 10 + Digit;
-      ReadDigit(F, Digit); 
+      ReadDigit(F, Digit)
     END;
   IF (N <= (MaxINT - Digit) DIV 10)
   THEN
     BEGIN
       N := N * 10 + Digit;   
-      //N := N * 10 + Digit;
     END
-  ELSE 
-    N := -1;  
+  ELSE
+    N := -2;
   IF N = 0
   THEN
-    N := -2;
+    N := -1
 END; 
 
 BEGIN
   N := 0;
   ReadNumber(INPUT, N);
-  WRITELN(N);
+  WRITELN(N)
 END.
 
 

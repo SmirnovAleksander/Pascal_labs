@@ -13,7 +13,7 @@ TYPE
   FileOfDate = FILE OF Date;
   
 PROCEDURE WriteDate(VAR FOut: TEXT; VAR Res: Date);
-PROCEDURE ReadDate (VAR FIn: TEXT; VAR Res: Date);
+PROCEDURE ReadDate(VAR FIn: TEXT; VAR Res: Date);
 PROCEDURE ReadMonth(VAR FIn: TEXT; VAR Mo: Month);
 PROCEDURE WriteMonth(VAR FOut: TEXT; VAR Mo: Month);
 PROCEDURE CopyOut(VAR DateFile: FileOfDate);
