@@ -1,4 +1,4 @@
-PROGRAM SarahRevere(INPUT, OUTPUT); 
+PROGRAM SarahRevere(INPUT, OUTPUT);  
 VAR
   W1, W2, W3, W4: CHAR;
   Looking, Land, Sea: BOOLEAN; 
