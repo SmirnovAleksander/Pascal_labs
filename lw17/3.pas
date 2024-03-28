@@ -18,7 +18,7 @@ BEGIN
   IF Ch = '8' THEN D := 8 ELSE
   IF Ch = '9' THEN D := 9 
   ELSE
-    D := -1;
+    D := -1
 END;
 
 PROCEDURE ReadNumber(VAR F: TEXT; VAR N: INTEGER);
@@ -70,7 +70,7 @@ BEGIN
             Min := Number
         END
       ELSE
-        Overflow := 'T';
+        Overflow := 'T'
     END;
     
   WHILE (NOT EOLN) AND (Number <> -1) AND (Number <> -2) 
@@ -95,8 +95,7 @@ BEGIN
         END
       ELSE
         BEGIN
-          Overflow := 'T';
-          //OverflowSum := 'F';
+          Overflow := 'T'
         END;
         
     END;
@@ -112,7 +111,7 @@ BEGIN
       WRITELN('Ошибка введенных даных(сумма элементов больше чем MaxINT)');
       WRITELN('Min: ', Min);
       WRITELN('Max: ', Max);
-      WRITELN('Среднее арифметическое чисел вывести невозможно');
+      WRITELN('Среднее арифметическое чисел вывести невозможно')
     END;
   IF (Overflow = 'F') AND (OverflowSum = 'F')
   THEN
@@ -122,6 +121,6 @@ BEGIN
       WRITELN('Max: ', Max); 
       Avarage := Sum DIV Count;
       AvaragePoint := (Sum MOD Count) * 100 DIV Count;
-      WRITELN('Avarage: ', Avarage, '.', AvaragePoint:2);  
-    END;    
+      WRITELN('Avarage: ', Avarage, '.', AvaragePoint:2)
+    END    
 END.
