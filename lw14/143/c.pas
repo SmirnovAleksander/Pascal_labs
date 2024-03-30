@@ -23,7 +23,6 @@ BEGIN {Split}
   RESET(F1);
   REWRITE(F2);
   REWRITE(F3);
-  BEGIN {?????????? F1 ??????????? ? F2 ? F3}
   Switch := '2';
   WHILE NOT (EOLN(F1))
   DO
@@ -52,9 +51,13 @@ BEGIN {Merge}
   RESET(F2);
   RESET(F3);
   REWRITE(F1);
-  READ(F2, Ch2);
-  READ(F3, Ch3);
-  WHILE (NOT(EOLN(F2))) AND (NOT(EOLN(F3))))
+  IF NOT EOLN(F2)
+  THEN
+    READ(F2, Ch2);
+  IF NOT EOLN(F3)
+  THEN
+    READ(F3, Ch3);
+  WHILE (NOT(EOLN(F2))) AND (NOT(EOLN(F3)))
   DO
     BEGIN
       IF Ch2 < CH3
@@ -69,7 +72,11 @@ BEGIN {Merge}
           READ(F3, Ch3);
         END
     END;
-  ////////////  
+  IF Ch2 < Ch3
+  THEN
+    WRITE(F1, Ch2, Ch3)
+  ELSE
+    WRITE(F1, Ch3, Ch2);
   WHILE NOT (EOLN(F2))
   DO
     BEGIN
@@ -82,7 +89,7 @@ BEGIN {Merge}
       WRITE(F1, Ch3);
       READ(F3, Ch3)
     END;
-  WRITELN(F1);
+  WRITELN(F1)
 END; {Merge}
 
 PROCEDURE RecursiveSort(VAR F1: TEXT);

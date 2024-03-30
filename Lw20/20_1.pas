@@ -5,7 +5,7 @@ CONST
   Chars = ['A' .. 'C'];
   A = [3, 7, 9, 12, 13, 14, 16, 20, 21, 25];
   B = [1, 2, 3, 4, 6, 10, 11, 12, 13, 14, 16, 20, 21, 22, 23, 24];
-  C = [2, 3, 4, 6, 10, 11, 16, 20, 22, 23, 24];
+  C = [2, 3, 4, 6, 10, 11, 16, 20, 22, 23, 24]; 
 TYPE
   MassOfElements = 1 .. MaxSize;
   LetterElements = SET OF MassOfElements; 
@@ -48,6 +48,8 @@ BEGIN
         WRITELN(OUTPUT)
     END
 END;
+
+
 
 BEGIN
   WHILE NOT EOLN(INPUT)

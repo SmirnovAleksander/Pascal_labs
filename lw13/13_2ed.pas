@@ -35,7 +35,17 @@ BEGIN {Lexico}
         IF (Ch1 > Ch2)
         THEN {Ch1 > Ch2 или F2 короче F1}
           Result := '2'
-    END {WHILE}
+    END; {WHILE}
+  IF Result = '0'
+  THEN
+    BEGIN
+      IF EOLN(F1) AND NOT(EOLN(F2))
+      THEN
+        Result := '1';
+      IF EOLN(F2) AND NOT(EOLN(F1))
+      THEN
+        Result := '2'
+    END
 END; {Lexico}
 
 BEGIN 

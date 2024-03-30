@@ -1,6 +1,5 @@
 PROGRAM SarahRevere(INPUT, OUTPUT); 
 
-
 PROCEDURE Init(VAR W1, W2, W3, W4: CHAR; VAR Looking, Land, Sea: BOOLEAN);
 BEGIN
   W1 := ' ';
