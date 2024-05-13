@@ -72,15 +72,11 @@ BEGIN
     END
   ELSE
     BEGIN
-      IF CompareWords(NewWord, Ptr^.Word) < 0 
-      THEN
-        InsertWord(Ptr^.LLink, NewWord)
-      ELSE 
-        IF CompareWords(NewWord, Ptr^.Word) > 0 
-        THEN
-          InsertWord(Ptr^.RLink, NewWord)
-        ELSE
-          Ptr^.Count := Ptr^.Count + 1;
+      CASE CompareWords(NewWord, Ptr^.Word) OF
+        -1: InsertWord(Ptr^.LLink, NewWord);
+        1: InsertWord(Ptr^.RLink, NewWord);
+        0: Ptr^.Count := Ptr^.Count + 1;
+      END;
     END;
 END;
 

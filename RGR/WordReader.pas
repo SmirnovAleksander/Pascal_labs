@@ -6,25 +6,28 @@ CONST
   MaxWordLenght = 50;
 
 PROCEDURE ReadWordsFromFile(VAR InputFile: TEXT; VAR Word: STRING; VAR Length: INTEGER);
-PROCEDURE ToLowercase(VAR c: CHAR);
+FUNCTION ToLowercase(VAR c: CHAR);
 
 IMPLEMENTATION
 
 
-PROCEDURE ToLowercase(VAR c: CHAR);
+FUNCTION ToLowercase(VAR c: CHAR): CHAR;
 CONST
   UpperCase = 'ABCDEFGHIJKLMNOPQRSTUVWXYZÀÁÂÃÄÅ¨ÆÇÈÉÊËÌÍÎÏÐÑÒÓÔÕÖ×ØÙÚÛÜÝÞ‗';
-  LowerCase = 'abcdefghijklmnopqrstuvwxyzאבגדהו¸זחטיךכלםמןנסעףפץצקרשתûü‎‏ÿ';
+  LowerCase = 'abcdefghijklmnopqrstuvwxyzאבגדהe¸זחטיךכלםמןנסעףפץצקרשתûü‎‏ÿ';
 VAR
-  Index: INTEGER;
+  i: INTEGER;
 BEGIN
-  Index := 1;
-  WHILE (Index <= 59) AND (UpperCase[Index] <> c) 
+  i := 1;
+  WHILE (i <= 59) AND (UpperCase[i] <> c) 
   DO   
-    Index := Index + 1;
+    i := i + 1;
   
-  IF Index <= 59 THEN
-    c := LowerCase[Index];
+  IF i <= 59 
+  THEN
+    ToLowercase := LowerCase[i];
+  ELSE
+    ToLowercase := c;
 END;
 
 PROCEDURE ReadWordsFromFile(VAR InputFile: TEXT; VAR Word: STRING; VAR Length: INTEGER);
@@ -57,7 +60,7 @@ BEGIN
             BEGIN
               OneWord := FALSE;
               Word := Word + '-';
-              Word := Word + Ch;
+              Word := Word + ToLowercase(Ch);
               Length := Length + 1;
             END
             ELSE
@@ -72,8 +75,7 @@ BEGIN
         END
         ELSE
         BEGIN
-          ToLowercase(Ch);
-          Word := Word + Ch;
+          Word := Word + ToLowercase(Ch);
           OneWord := FALSE;
         END;
       END
