@@ -33,7 +33,7 @@ END;
 PROCEDURE ReadWordsFromFile(VAR InputFile: TEXT; VAR Word: STRING; VAR Length: INTEGER);
 VAR
   Ch: CHAR;
-  Separator: BOOLEAN;
+  Separator: BOOLEAN;  //это флаг на наличие разделителя между словами
   EndOfFile: BOOLEAN;
   OneWord: BOOLEAN;
 BEGIN
@@ -51,6 +51,7 @@ BEGIN
       IF (Ch IN ['a'..'z', 'A'..'Z', 'а'..'я', 'А'..'Я', '-', 'ё', 'Ё']) AND (Length < MaxWordLenght) THEN
       BEGIN
         Length := Length + 1;
+        //Чтение вотрого слова
         IF Ch = '-' THEN
         BEGIN
           IF NOT EOF(InputFile) THEN
@@ -73,6 +74,7 @@ BEGIN
           ELSE
             Separator := TRUE;
         END
+        //Чтение второго слова
         ELSE
         BEGIN
           Word := Word + ToLowercase(Ch);
@@ -86,12 +88,13 @@ BEGIN
       EndOfFile := TRUE;
   END;
 
-  IF Length > 0 THEN
-  BEGIN
-    IF OneWord THEN
-      Length := 0;
-  END;
+  IF Length > 0 
+  THEN
+    BEGIN
+      IF OneWord 
+      THEN
+        Length := 0;
+    END;
 END;
-
 
 END.

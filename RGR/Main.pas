@@ -1,4 +1,4 @@
-PROGRAM WordFrequency;
+PROGRAM CountWordsRGR(INPUT, OUTPUT);
 
 USES
   WordReader, BinaryTree;
@@ -16,6 +16,6 @@ BEGIN
 
   Rewrite(OutputFile);
   PrintWordCount(Root, OutputFile);
-  Close(OutputFile);    
+  CLOSE(OutputFile);    
 END.
 
