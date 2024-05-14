@@ -5,6 +5,9 @@ INTERFACE
 USES
   WordReader; 
 
+CONST
+  MaxWords = 10000;
+  
 TYPE 
   Tree = ^NodeType;
   NodeType = RECORD
@@ -83,18 +86,20 @@ END;
 PROCEDURE CountWordsFromFile(VAR InputFile: TEXT; VAR Root: Tree);
 VAR
   Word: STRING;
-  Length: INTEGER;   
+  Length: INTEGER; 
+  WordCount: INTEGER;  
 BEGIN         
   RESET(InputFile);
-  WHILE NOT EOF(InputFile) 
+  WordCount := 0;
+  WHILE (NOT EOF(InputFile)) AND (WordCount < MaxWords)  
   DO
     BEGIN
       ReadWordsFromFile(InputFile, Word, Length);
       IF Length > 0 
       THEN
-        InsertWord(Root, Word);  
-    END;    
-  CLOSE(InputFile);    
+        InsertWord(Root, Word);
+        WordCount := WordCount + 1;  
+    END;            
 END;
 
 PROCEDURE PrintWordCount(Ptr: Tree; VAR OutputFile: TEXT);
