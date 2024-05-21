@@ -39,22 +39,27 @@ BEGIN
   WHILE (i <= MinLen) AND (Word1[i] = Word2[i]) DO
     i := i + 1;
 
-  IF i <= MinLen THEN
-  BEGIN
-    IF Word1[i] < Word2[i] THEN
-      CompareWords := -1
-    ELSE
-      CompareWords := 1;
-  END
+  IF i <= MinLen 
+  THEN
+    BEGIN
+      IF Word1[i] < Word2[i] 
+      THEN
+        CompareWords := -1
+      ELSE
+        CompareWords := 1;
+    END
   ELSE
-  BEGIN
-    IF Len1 < Len2 THEN
-      CompareWords := -1
-    ELSE IF Len1 > Len2 THEN
-      CompareWords := 1
-    ELSE
-      CompareWords := 0;
-  END;
+    BEGIN
+      IF Len1 < Len2 
+      THEN
+        CompareWords := -1
+      ELSE 
+        IF Len1 > Len2 
+        THEN
+          CompareWords := 1
+        ELSE
+          CompareWords := 0;
+    END;
 END;
 
 PROCEDURE InsertWord(VAR Ptr: Tree; NewWord: STRING);

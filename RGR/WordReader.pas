@@ -6,15 +6,14 @@ CONST
   MaxWordLenght = 50;
 
 PROCEDURE ReadWordsFromFile(VAR InputFile: TEXT; VAR Word: STRING; VAR Length: INTEGER);
-FUNCTION ToLowercase(VAR c: CHAR);
+FUNCTION ToLowercase(VAR c: CHAR): CHAR;
 
 IMPLEMENTATION
-
 
 FUNCTION ToLowercase(VAR c: CHAR): CHAR;
 CONST
   UpperCase = 'ABCDEFGHIJKLMNOPQRSTUVWXYZÀÁÂÃÄÅ¨ÆÇÈÉÊËÌÍÎÏÐÑÒÓÔÕÖ×ØÙÚÛÜÝÞ‗';
-  LowerCase = 'abcdefghijklmnopqrstuvwxyzאבגדהe¸זחטיךכלםמןנסעףפץצקרשתûü‎‏ÿ';
+  LowerCase = 'abcdefghijklmnopqrstuvwxyzאבגדהו¸זחטיךכלםמןנסעףפץצקרשתûü‎‏ÿ';
 VAR
   i: INTEGER;
 BEGIN
@@ -25,7 +24,7 @@ BEGIN
   
   IF i <= 59 
   THEN
-    ToLowercase := LowerCase[i];
+    ToLowercase := LowerCase[i]
   ELSE
     ToLowercase := c;
 END;
@@ -33,68 +32,47 @@ END;
 PROCEDURE ReadWordsFromFile(VAR InputFile: TEXT; VAR Word: STRING; VAR Length: INTEGER);
 VAR
   Ch: CHAR;
-  Separator: BOOLEAN;  //‎עמ פכאד םא םאכטקטו נאחהוכטעוכÿ לוזהף סכמגאלט
+  Separator: BOOLEAN;
   EndOfFile: BOOLEAN;
-  OneWord: BOOLEAN;
+  WordStarted: BOOLEAN;
 BEGIN
   Length := 0;
   Word := '';
   Separator := FALSE;
   EndOfFile := FALSE;
-  OneWord := TRUE;
+  WordStarted := FALSE;
 
-  WHILE (NOT Separator) AND (NOT EndOfFile) DO
-  BEGIN
-    IF NOT EOF(InputFile) THEN
+  WHILE (NOT Separator) AND (NOT EndOfFile) 
+  DO
     BEGIN
-      READ(InputFile, Ch);
-      IF (Ch IN ['a'..'z', 'A'..'Z', 'א'..'ÿ', 'À'..'‗', '-', '¸', '¨']) AND (Length < MaxWordLenght) THEN
-      BEGIN
-        Length := Length + 1;
-        //×עוםטו גמענמדמ סכמגא
-        IF Ch = '-' THEN
+      IF NOT EOF(InputFile) 
+      THEN
         BEGIN
-          IF NOT EOF(InputFile) THEN
-          BEGIN
-            READ(InputFile, Ch);
-            IF (Ch IN ['a'..'z', 'A'..'Z', 'א'..'ÿ', 'À'..'‗', '¸', '¨']) AND (Length < MaxWordLenght) THEN
+          READ(InputFile, Ch);
+          IF (Ch IN ['a'..'z', 'A'..'Z', 'א'..'ÿ', 'À'..'‗', '-', '¸', '¨']) AND (Length < MaxWordLenght) 
+          THEN
             BEGIN
-              OneWord := FALSE;
-              Word := Word + '-';
-              Word := Word + ToLowercase(Ch);
-              Length := Length + 1;
+              IF (Ch = '-') AND ((NOT WordStarted) OR (Word[Length] = '-')) 
+              THEN
+                BEGIN
+                  Separator := TRUE;
+                  IF Length > 0 THEN
+                    Length := Length - 1;
+                END
+              ELSE
+                BEGIN
+                  Length := Length + 1;
+                  Word := Word + ToLowercase(Ch);
+                  WordStarted := TRUE;
+                END;
             END
-            ELSE
-            BEGIN
-              Separator := TRUE;
-              IF Length > 1 THEN
-                Length := Length - 1; 
-            END;
-          END
-          ELSE
+          ELSE 
             Separator := TRUE;
         END
-        //×עוםטו געמנמדמ סכמגא
-        ELSE
-        BEGIN
-          Word := Word + ToLowercase(Ch);
-          OneWord := FALSE;
-        END;
-      END
-      ELSE IF Length > 0 THEN
-        Separator := TRUE;
-    END
-    ELSE
-      EndOfFile := TRUE;
-  END;
-
-  IF Length > 0 
-  THEN
-    BEGIN
-      IF OneWord 
-      THEN
-        Length := 0;
+      ELSE
+        EndOfFile := TRUE;
     END;
 END;
 
 END.
+
