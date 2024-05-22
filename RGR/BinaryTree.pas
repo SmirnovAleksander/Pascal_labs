@@ -14,7 +14,7 @@ TYPE
   NodeType = RECORD
                 Word: STRING;
                 Count: INTEGER;
-                LLink, RLink: Tree;
+                LLink, RLink: Tree
              END;
                
 VAR
@@ -32,11 +32,13 @@ BEGIN
   Len1 := Length(Word1);
   Len2 := Length(Word2);
   MinLen := Len1;
-  IF Len1 > Len2 THEN
+  IF Len1 > Len2 
+  THEN
     MinLen := Len2;
 
   i := 1;
-  WHILE (i <= MinLen) AND (Word1[i] = Word2[i]) DO
+  WHILE (i <= MinLen) AND (Word1[i] = Word2[i]) 
+  DO
     i := i + 1;
 
   IF i <= MinLen 
@@ -46,7 +48,7 @@ BEGIN
       THEN
         CompareWords := -1
       ELSE
-        CompareWords := 1;
+        CompareWords := 1
     END
   ELSE
     BEGIN
@@ -58,32 +60,33 @@ BEGIN
         THEN
           CompareWords := 1
         ELSE
-          CompareWords := 0;
-    END;
-END;
+          CompareWords := 0
+    END
+END
 
 PROCEDURE InsertWord(VAR Ptr: Tree; NewWord: STRING);
 BEGIN
-  IF Ptr = NIL THEN
-  BEGIN
-    NEW(Ptr);
-    Ptr^.Word := NewWord;
-    Ptr^.Count := 1;
-    Ptr^.LLink := NIL;
-    Ptr^.RLink := NIL;
-    WordsCount := WordsCount + 1;
-  END
+  IF Ptr = NIL 
+  THEN
+    BEGIN
+      NEW(Ptr);
+      Ptr^.Word := NewWord;
+      Ptr^.Count := 1;
+      Ptr^.LLink := NIL;
+      Ptr^.RLink := NIL;
+      WordsCount := WordsCount + 1
+    END
   ELSE
-  BEGIN
-    CASE CompareWords(NewWord, Ptr^.Word) OF
-      -1: InsertWord(Ptr^.LLink, NewWord);
-      1: InsertWord(Ptr^.RLink, NewWord);
-      0: IF Ptr^.Count < MaxWordsCount 
-         THEN
-           Ptr^.Count := Ptr^.Count + 1;
-    END;
-  END;
-END;
+    BEGIN
+      CASE CompareWords(NewWord, Ptr^.Word) OF
+        -1: InsertWord(Ptr^.LLink, NewWord);
+        1: InsertWord(Ptr^.RLink, NewWord);
+        0: IF Ptr^.Count < MaxWordsCount 
+           THEN
+             Ptr^.Count := Ptr^.Count + 1
+      END
+    END
+END
 
 PROCEDURE CountWordsFromFile(VAR InputFile: TEXT; VAR Root: Tree);
 VAR
@@ -103,9 +106,9 @@ BEGIN
         BEGIN
           InsertWord(Root, Word);
           InputWordsCount := InputWordsCount + 1
-        END;
-    END;            
-END;
+        END
+    END
+END
 
 PROCEDURE PrintWordCount(Ptr: Tree; VAR OutputFile: TEXT);
 BEGIN
@@ -114,9 +117,9 @@ BEGIN
     BEGIN
       PrintWordCount(Ptr^.LLink, OutputFile);
       WRITELN(OutputFile, Ptr^.Word, ' ', Ptr^.Count);
-      PrintWordCount(Ptr^.RLink, OutputFile);
-    END;
-END;
+      PrintWordCount(Ptr^.RLink, OutputFile)
+    END
+END
 
 END.
 

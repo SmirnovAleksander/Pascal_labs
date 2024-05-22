@@ -26,7 +26,7 @@ BEGIN
   THEN
     ToLowercase := LowerCase[i]
   ELSE
-    ToLowercase := c;
+    ToLowercase := c
 END;
 
 PROCEDURE ReadWordsFromFile(VAR InputFile: TEXT; VAR Word: STRING; VAR Length: INTEGER);
@@ -57,22 +57,22 @@ BEGIN
                 BEGIN
                   Separator := TRUE;
                   IF Length > 0 THEN
-                    Length := Length - 1;
+                    Length := Length - 1
                 END
               ELSE
                 BEGIN
                   Length := Length + 1;
                   Word := Word + ToLowercase(Ch);
-                  WordStarted := TRUE;
-                END;
+                  WordStarted := TRUE
+                END
             END
           ELSE 
-            Separator := TRUE;
+            Separator := TRUE
         END
       ELSE
-        EndOfFile := TRUE;
-    END;
-END;
+        EndOfFile := TRUE
+    END
+END
 
 END.
 
