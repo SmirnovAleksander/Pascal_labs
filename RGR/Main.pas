@@ -8,8 +8,8 @@ VAR
   Root: Tree;
 
 BEGIN
-  Assign(InputFile, 'input3.txt');
-  Assign(OutputFile, 'output3.txt');
+  Assign(InputFile, 'input.txt');
+  Assign(OutputFile, 'output.txt');
 
   Root := NIL;
   CountWordsFromFile(InputFile, Root);

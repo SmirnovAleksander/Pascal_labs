@@ -52,7 +52,7 @@ BEGIN
           IF (Ch IN ['a'..'z', 'A'..'Z', 'à'..'ÿ', 'À'..'ß', '-', '¸', '¨']) AND (Length < MaxWordLenght) 
           THEN
             BEGIN
-              IF (Ch = '-') AND ((NOT WordStarted) OR (Word[Length] = '-')) 
+              IF (Ch = '-') AND (NOT WordStarted) 
               THEN
                 BEGIN
                   Separator := TRUE;
