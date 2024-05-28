@@ -5,16 +5,13 @@ USES
 
 VAR
   InputFile, OutputFile: TEXT;
-  Root: Tree;
 
 BEGIN
   Assign(InputFile, 'input.txt');
   Assign(OutputFile, 'output.txt');
 
-  Root := NIL;
-  CountWordsFromFile(InputFile, Root);
-
+  CountWordsFromFile(InputFile);
   Rewrite(OutputFile);
-  PrintWordCount(Root, OutputFile) 
+  PrintWordCount(OutputFile)
 END.
 
