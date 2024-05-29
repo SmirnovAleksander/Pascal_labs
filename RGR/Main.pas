@@ -12,6 +12,6 @@ BEGIN
 
   CountWordsFromFile(InputFile);
   Rewrite(OutputFile);
-  PrintWordCount(OutputFile)
+  PrintTree(Root, OutputFile)
 END.
 

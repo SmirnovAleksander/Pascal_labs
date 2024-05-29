@@ -9,10 +9,10 @@ var
   WordLength: integer;
 
 begin
-  assign(InputFileHandle, 'input3.txt');
+  assign(InputFileHandle, 'input.txt');
   reset(InputFileHandle);
 
-  assign(OutputFileHandle, 'output3.txt');
+  assign(OutputFileHandle, 'output.txt');
   rewrite(OutputFileHandle);
 
   while not eof(InputFileHandle) do

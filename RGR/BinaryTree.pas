@@ -7,7 +7,7 @@ USES
 
 CONST
   MaxInputWords = 10000;
-  MaxWordsCount = 10; 
+  MaxWordsCount = 10; // уникальные слова
 
 TYPE
   Tree = ^NodeType;
@@ -22,13 +22,23 @@ VAR
   Root: Tree;
 
 PROCEDURE CountWordsFromFile(VAR InputFile: TEXT);
-PROCEDURE PrintWordCount(VAR OutputFile: TEXT);
+PROCEDURE PrintTree(Ptr: Tree; VAR OutputFile: TEXT);
 
 IMPLEMENTATION
 
 FUNCTION CompareWords(Word1, Word2: STRING): INTEGER;
 VAR
   Len1, Len2, MinLen, i: Integer;
+  Char1, Char2: CHAR;
+
+  FUNCTION AdjustChar(c: CHAR): CHAR;
+  BEGIN
+    IF c = 'ё' THEN
+      AdjustChar := 'е' // Логически перемещаем 'ё' после 'е'
+    ELSE
+      AdjustChar := c;
+  END;
+
 BEGIN
   Len1 := Length(Word1);
   Len2 := Length(Word2);
@@ -37,25 +47,52 @@ BEGIN
     MinLen := Len2;
 
   i := 1;
-  WHILE (i <= MinLen) AND (Word1[i] = Word2[i]) DO
-    i := i + 1;
-
-  IF i <= MinLen THEN
+  WHILE (i <= MinLen) DO
   BEGIN
-    IF Word1[i] < Word2[i] THEN
-      CompareWords := -1
+    Char1 := AdjustChar(Word1[i]);
+    Char2 := AdjustChar(Word2[i]);
+
+    IF Char1 < Char2 THEN
+    BEGIN
+      CompareWords := -1;
+      i := MinLen + 1; // Прерываем цикл
+    END
+    ELSE IF Char1 > Char2 THEN
+    BEGIN
+      CompareWords := 1;
+      i := MinLen + 1; // Прерываем цикл
+    END
     ELSE
-      CompareWords := 1
-  END
-  ELSE
+    BEGIN
+      // Если буквы равны, учитываем, что 'ё' идет после 'е'
+      IF (Word1[i] = 'ё') AND (Word2[i] <> 'ё') THEN
+      BEGIN
+        CompareWords := 1;
+        i := MinLen + 1; // Прерываем цикл
+      END
+      ELSE IF (Word1[i] <> 'ё') AND (Word2[i] = 'ё') THEN
+      BEGIN
+        CompareWords := -1;
+        i := MinLen + 1; // Прерываем цикл
+      END
+      ELSE
+      BEGIN
+        CompareWords := 0; // Сравниваем следующие символы
+      END;
+    END;
+    i := i + 1;
+  END;
+
+  // Если все символы равны до длины более короткого слова
+  IF CompareWords = 0 THEN
   BEGIN
     IF Len1 < Len2 THEN
       CompareWords := -1
     ELSE IF Len1 > Len2 THEN
       CompareWords := 1
     ELSE
-      CompareWords := 0
-  END
+      CompareWords := 0;
+  END;
 END;
 
 PROCEDURE InsertWord(VAR Ptr: Tree; NewWord: STRING);
@@ -109,11 +146,6 @@ BEGIN
     WRITELN(OutputFile, Ptr^.Word, ' ', Ptr^.Count);
     PrintTree(Ptr^.RLink, OutputFile);
   END
-END;
-
-PROCEDURE PrintWordCount(VAR OutputFile: TEXT);
-BEGIN
-  PrintTree(Root, OutputFile);
 END;
 
 END.
