@@ -7,11 +7,11 @@ VAR
   InputFile, OutputFile: TEXT;
 
 BEGIN
-  ASSIGN(InputFile, 'input.txt');
-  ASSIGN(OutputFile, 'output.txt');
+  Assign(InputFile, 'input.txt');
+  Assign(OutputFile, 'output.txt');
 
   CountWordsFromFile(InputFile);
   Rewrite(OutputFile);
-  PrintTree(OutputFile)
+  PrintTree(Root, OutputFile)
 END.
 
