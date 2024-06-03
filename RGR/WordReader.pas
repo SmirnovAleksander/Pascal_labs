@@ -72,7 +72,7 @@ BEGIN
       ELSE
         EndOfFile := TRUE
     END
-END
-
+END;
+BEGIN
 END.
 

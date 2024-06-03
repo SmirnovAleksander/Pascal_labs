@@ -22,19 +22,19 @@ VAR
   Root: Tree;
 
 PROCEDURE CountWordsFromFile(VAR InputFile: TEXT);
-PROCEDURE PrintTree(Ptr: Tree; VAR OutputFile: TEXT);
+PROCEDURE PrintTree(VAR OutputFile: TEXT);
 
 IMPLEMENTATION
 
 
-FUNCTION FilterChar(c: CHAR): CHAR;
+FUNCTION FilterChar(Ch: CHAR): CHAR;
   BEGIN
-    IF c = '¸' 
+    IF Ch = '¸' 
     THEN
       FilterChar := 'å'
     ELSE
-      FilterChar := c
-  END
+      FilterChar := Ch
+  END;
 
 FUNCTION CompareWords(Word1, Word2: STRING): INTEGER;
 VAR
@@ -51,33 +51,33 @@ BEGIN
     MinLen := Len2;
 
   i := 1;
-  WHILE (i <= MinLen) DO
-  BEGIN
-    Char1 := FilterChar(Word1[i]);
-    Char2 := FilterChar(Word2[i]);
+  WHILE (i <= MinLen) 
+  DO
+    BEGIN
+      Char1 := FilterChar(Word1[i]);
+      Char2 := FilterChar(Word2[i]);
 
-    IF Char1 < Char2 
-    THEN
-      CompareWords := -1;
-    ELSE 
-      IF Char1 > Char2 
+      IF Char1 < Char2 
       THEN
-        CompareWords := 1;
-      ELSE
-        IF (Word1[i] = '¸') AND (Word2[i] <> '¸') 
+        CompareWords := -1  
+      ELSE 
+        IF Char1 > Char2 
         THEN
-          CompareWords := 1;
-        ELSE 
-          IF (Word1[i] <> '¸') AND (Word2[i] = '¸') 
+          CompareWords := 1
+        ELSE
+          IF (Word1[i] = '¸') AND (Word2[i] <> '¸') 
           THEN
-            CompareWords := -1;
-          ELSE
-            CompareWords := 0; 
+            CompareWords := 1
+          ELSE 
+            IF (Word1[i] <> '¸') AND (Word2[i] = '¸') 
+            THEN
+              CompareWords := -1
+            ELSE         
+              CompareWords := 0;
+      i := i + 1
+    END;
 
-    i := i + 1;
-  END;
-
-  IF CompareWords = 0 
+  IF CompareWords(Word1, Word2) = 0
   THEN
     IF Len1 < Len2 
     THEN
@@ -87,7 +87,7 @@ BEGIN
       THEN
         CompareWords := 1
       ELSE
-        CompareWords := 0;
+        CompareWords := 0
 END;
 
 PROCEDURE InsertWord(VAR Ptr: Tree; NewWord: STRING);
@@ -121,7 +121,6 @@ VAR
   InputWordsCount: INTEGER;
 BEGIN
   RESET(InputFile);
-  Root := NIL;
   WordsCount := 0;
   InputWordsCount := 0;
   WHILE NOT EOF(InputFile) AND (InputWordsCount < MaxInputWords) 
@@ -137,16 +136,22 @@ BEGIN
     END
 END;
 
-PROCEDURE PrintTree(Ptr: Tree; VAR OutputFile: TEXT);
+PROCEDURE PrintTreeOut(Ptr: Tree; VAR OutputFile: TEXT);
 BEGIN
   IF Ptr <> NIL 
   THEN
     BEGIN
-      PrintTree(Ptr^.LLink, OutputFile);
+      PrintTreeOut(Ptr^.LLink, OutputFile);
       WRITELN(OutputFile, Ptr^.Word, ' ', Ptr^.Count);
-      PrintTree(Ptr^.RLink, OutputFile);
+      PrintTreeOut(Ptr^.RLink, OutputFile)
     END
 END;
 
+PROCEDURE PrintTree(VAR OutputFile: TEXT);
+BEGIN
+  PrintTreeOut(Root, OutputFile)
+END;
+BEGIN
+    Root := NIL;
 END.
 
