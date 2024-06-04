@@ -34,16 +34,18 @@ FUNCTION FilterChar(c: CHAR): CHAR;
       FilterChar := 'å'
     ELSE
       FilterChar := c
-  END
+  END;
 
 FUNCTION CompareWords(Word1, Word2: STRING): INTEGER;
 VAR
   Len1, Len2, MinLen, i: Integer;
   Char1, Char2: CHAR;
+  Flag: BOOLEAN;
 
 BEGIN
   Len1 := Length(Word1);
   Len2 := Length(Word2);
+  Flag := FALSE;
   MinLen := Len1;
 
   IF Len1 > Len2 
@@ -58,26 +60,40 @@ BEGIN
 
     IF Char1 < Char2 
     THEN
-      CompareWords := -1;
+      BEGIN
+        CompareWords := -1;
+        i := MinLen + 1; 
+      END
     ELSE 
       IF Char1 > Char2 
       THEN
-        CompareWords := 1;
+        BEGIN
+          CompareWords := 1;
+          i := MinLen + 1; 
+        END
       ELSE
         IF (Word1[i] = '¸') AND (Word2[i] <> '¸') 
         THEN
-          CompareWords := 1;
+          BEGIN
+            CompareWords := 1;
+            i := MinLen + 1; 
+          END
         ELSE 
           IF (Word1[i] <> '¸') AND (Word2[i] = '¸') 
           THEN
-            CompareWords := -1;
+            BEGIN
+              CompareWords := -1;
+              i := MinLen + 1;
+            END
           ELSE
-            CompareWords := 0; 
-
+            BEGIN   
+              CompareWords := 0;
+              Flag := TRUE;
+            END;
     i := i + 1;
   END;
 
-  IF CompareWords = 0 
+  IF Flag 
   THEN
     IF Len1 < Len2 
     THEN
