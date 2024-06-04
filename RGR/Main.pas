@@ -11,7 +11,6 @@ BEGIN
   Assign(OutputFile, 'output.txt');
 
   CountWordsFromFile(InputFile);
-  Rewrite(OutputFile);
-  PrintTree(Root, OutputFile)
+  PrintTree(OutputFile)
 END.
 
